@@ -12,6 +12,7 @@ export interface AppContextType {
   loading: boolean;
   setUser: (user: User | null) => void;
   signInWithEmail: (email: string, password: string) => Promise<void>;
+  signUpWithEmail: (email: string, password: string) => Promise<void>;
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
   authReady: boolean;

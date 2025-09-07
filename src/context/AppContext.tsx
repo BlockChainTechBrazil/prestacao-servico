@@ -7,7 +7,12 @@ import {
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
+  setPersistence,
+  browserLocalPersistence,
   signOut as fbSignOut,
 } from 'firebase/auth';
 
@@ -17,6 +22,12 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [authReady, setAuthReady] = useState(false);
 
   useEffect(() => {
+    // Garante persistência local (importante em produção e para fluxos de redirect)
+    setPersistence(auth, browserLocalPersistence).catch(() => { /* noop */ });
+
+    // Tenta resolver resultado de redirect (caso popup seja bloqueado)
+    getRedirectResult(auth).catch(() => { /* noop */ });
+
     const unsub = onAuthStateChanged(auth, (fbUser) => {
       if (fbUser) {
         const u: User = {
@@ -45,9 +56,32 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   const signInWithGoogle = async () => {
     setLoading(true);
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
     try {
-      const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
+    } catch (err: unknown) {
+      const code = (err as { code?: string }).code || '';
+      const popupIssues = [
+        'auth/popup-blocked',
+        'auth/operation-not-supported-in-this-environment',
+        'auth/cors-unsupported',
+        'auth/internal-error',
+      ];
+      if (popupIssues.includes(code)) {
+        await signInWithRedirect(auth, provider);
+        return; // Após redirect, onAuthStateChanged tratará o usuário
+      }
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const signUpWithEmail = async (email: string, password: string) => {
+    setLoading(true);
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
     } finally {
       setLoading(false);
     }
@@ -63,7 +97,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AppContext.Provider value={{ user, loading, setUser, signInWithEmail, signInWithGoogle, signOut, authReady }}>
+  <AppContext.Provider value={{ user, loading, setUser, signInWithEmail, signUpWithEmail, signInWithGoogle, signOut, authReady }}>
       {children}
     </AppContext.Provider>
   );
