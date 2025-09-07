@@ -1,5 +1,4 @@
 // src/App.tsx 
-import React from 'react'; 
 import { BrowserRouter } from 'react-router-dom'; 
 import { AppProvider } from './context/AppContext'; 
 import { Navbar } from './components/Navbar'; 
