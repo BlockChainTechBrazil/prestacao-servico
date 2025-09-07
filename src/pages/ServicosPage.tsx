@@ -85,15 +85,15 @@ export const ServicosPage = () => {
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Serviços</h1>
+            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Serviços</h1>
             <p className="text-gray-600">Cadastre os serviços prestados aos clientes</p>
           </div>
-          <button onClick={() => setShowModal(true)} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <button onClick={() => setShowModal(true)} className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow">
             Novo Serviço
           </button>
         </div>
 
-        <div className="bg-white shadow rounded-lg">
+        <div className="bg-white shadow rounded-xl">
           {servicos.length === 0 ? (
             <div className="text-center py-12">
               <h3 className="mt-2 text-sm font-medium text-gray-900">Nenhum serviço</h3>
@@ -104,19 +104,19 @@ export const ServicosPage = () => {
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descrição</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valor</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Cliente</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Descrição</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Data</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Valor</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white divide-y divide-gray-100">
                   {servicos.map((s) => (
-                    <tr key={s.id}>
+                    <tr key={s.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{clientesById[s.clienteId] || s.clienteId}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{s.descricao}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(s.data).toLocaleDateString()}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{s.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{s.descricao}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{new Date(s.data).toLocaleDateString()}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{s.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -128,15 +128,15 @@ export const ServicosPage = () => {
 
       {showModal && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-          <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+          <div className="relative top-20 mx-auto p-6 border w-full max-w-2xl shadow-2xl rounded-xl bg-white">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-medium text-gray-900">Novo Serviço</h3>
+              <h3 className="text-xl font-semibold text-gray-900">Novo Serviço</h3>
               <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600">✕</button>
             </div>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div>
                 <label className="block text-sm font-medium text-gray-700">Cliente</label>
-                <select value={novoServico.clienteId} onChange={(e) => setNovoServico({ ...novoServico, clienteId: e.target.value })} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required>
+                <select value={novoServico.clienteId} onChange={(e) => setNovoServico({ ...novoServico, clienteId: e.target.value })} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" required>
                   <option value="" disabled>Selecione um cliente</option>
                   {clientes.map(c => (
                     <option key={c.id} value={c.id}>{c.nome}</option>
@@ -145,19 +145,19 @@ export const ServicosPage = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">Descrição</label>
-                <input type="text" value={novoServico.descricao} onChange={(e) => setNovoServico({ ...novoServico, descricao: e.target.value })} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required />
+                <input type="text" value={novoServico.descricao} onChange={(e) => setNovoServico({ ...novoServico, descricao: e.target.value })} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" required />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">Data</label>
-                <input type="date" value={novoServico.data} onChange={(e) => setNovoServico({ ...novoServico, data: e.target.value })} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required />
+                <input type="date" value={novoServico.data} onChange={(e) => setNovoServico({ ...novoServico, data: e.target.value })} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" required />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">Valor</label>
-                <input type="number" min="0" step="0.01" value={novoServico.valor} onChange={(e) => setNovoServico({ ...novoServico, valor: e.target.value })} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required />
+                <input type="number" min="0" step="0.01" value={novoServico.valor} onChange={(e) => setNovoServico({ ...novoServico, valor: e.target.value })} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" required />
               </div>
               <div className="flex justify-end space-x-3 pt-4">
-                <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-md">Cancelar</button>
-                <button type="submit" className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md">Salvar</button>
+                <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-lg">Cancelar</button>
+                <button type="submit" className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow">Salvar</button>
               </div>
             </form>
           </div>
