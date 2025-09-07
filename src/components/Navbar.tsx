@@ -4,14 +4,16 @@ import { useApp } from '../context/useApp';
 import { NavLink } from 'react-router-dom';
 
 export const Navbar = () => {
-  const { user, signOut, signInWithGoogle } = useApp();
+  const { user, signOut } = useApp();
 
   return (
     <nav className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <h1 className="text-lg sm:text-xl font-extrabold text-gray-800 tracking-tight">BCT Prestação de Serviços</h1>
+            <NavLink to="/" className="text-lg sm:text-xl font-extrabold text-gray-800 tracking-tight">
+              BCT Prestação de Serviços
+            </NavLink>
           </div>
           <div className="flex items-center space-x-3 sm:space-x-5">
             {user && (
@@ -34,9 +36,9 @@ export const Navbar = () => {
                 <button onClick={signOut} className="ml-1 sm:ml-3 text-xs sm:text-sm text-white bg-red-500 hover:bg-red-600 px-3 py-1 rounded-md transition-colors">Sair</button>
               </div>
             ) : (
-              <button onClick={signInWithGoogle} className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium shadow">
-                Entrar com Google
-              </button>
+              <NavLink to="/login" className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium shadow">
+                Entrar
+              </NavLink>
             )}
           </div>
         </div>
