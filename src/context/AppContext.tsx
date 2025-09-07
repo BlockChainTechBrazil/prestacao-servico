@@ -97,7 +97,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-  <AppContext.Provider value={{ user, loading, setUser, signInWithEmail, signUpWithEmail, signInWithGoogle, signOut, authReady }}>
+    <AppContext.Provider value={{ user, loading, setUser, signInWithEmail, signUpWithEmail, signInWithGoogle, signOut, authReady }}>
       {children}
     </AppContext.Provider>
   );
